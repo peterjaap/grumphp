@@ -24,10 +24,12 @@ class SecurityCheckerEnlightn extends AbstractExternalTask
         $resolver->setDefaults([
             'lockfile' => './composer.lock',
             'run_always' => false,
+            'allow_list' => []
         ]);
 
         $resolver->addAllowedTypes('lockfile', ['string']);
         $resolver->addAllowedTypes('run_always', ['bool']);
+        $resolver->addAllowedTypes('allow_list', ['array']);
 
         return ConfigOptionsResolver::fromOptionsResolver($resolver);
     }
@@ -50,6 +52,11 @@ class SecurityCheckerEnlightn extends AbstractExternalTask
         $arguments = $this->processBuilder->createArgumentsForCommand('security-checker');
         $arguments->add('security:check');
         $arguments->addOptionalArgument('%s', $config['lockfile']);
+        if (!empty($config['allow_list'])) {
+            foreach ($config['allow_list'] as $allowListItem) {
+                $arguments->addOptionalArgument('--allow-list %s', $allowListItem);
+            }
+        }
 
         $process = $this->processBuilder->buildProcess($arguments);
         $process->run();
