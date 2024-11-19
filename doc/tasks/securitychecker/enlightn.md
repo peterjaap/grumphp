@@ -19,6 +19,10 @@ grumphp:
         securitychecker_enlightn:
             lockfile: ./composer.lock
             run_always: false
+            allow_list:
+                - CVE-2018-15133
+                - CVE-2024-51755
+                - CVE-2024-45411
 ```
 
 **lockfile**
