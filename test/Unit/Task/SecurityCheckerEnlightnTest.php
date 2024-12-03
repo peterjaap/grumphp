@@ -107,5 +107,16 @@ class SecurityCheckerEnlightnTest extends AbstractExternalTaskTestCase
                 './composer.lock',
             ]
         ];
+
+        yield 'with_allow_list' => [
+            ['allow_list' => ['allow_advisory_1', 'allow_advisory_2']],
+            $this->mockContext(RunContext::class, ['composer.lock']),
+            'security-checker',
+            [
+                'security:check',
+                './composer.lock',
+                '--allow-list=allow_advisory_1,allow_advisory_2'
+            ]
+        ];
     }
 }
